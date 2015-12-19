@@ -10,7 +10,7 @@ const Container = React.createClass({
     app: React.PropTypes.object,
   },
 
-  getChildContext: function() {
+  getChildContext() {
     return {
       app: this.props.app,
     };

@@ -8,8 +8,8 @@ const Home = React.createClass({
   ],
 
   _onClick() {
-    this.context.app.fireAction(
-      TodoActions.newTodo('my new todo')
+    this.context.app.dispatchAction(
+      TodoActions.newTodo(`my new todo ${Math.random()}`)
     );
   },
 

@@ -1,66 +1,87 @@
 import Immutable from 'immutable';
 import Cursor from 'immutable/contrib/cursor';
-import objectSizeof from 'object-sizeof';
+
+import immutableDiff from 'immutable-diff';
 
 
 class ImmutableHistory {
   constructor(immutableCollection, onChange) {
     this.cursor = Cursor.from(immutableCollection, [], this._cursorHasChanged.bind(this));
-    this._history = Immutable.List([immutableCollection]);
     this._onChange = onChange;
-    this._emitChange();
-
-    this._historyBranched = false;
+    this._baseState = immutableCollection;
+    this._diffs = Immutable.List();
     this._cursorIndex = 0;
   }
 
-  _cursorHasChanged(newData) {
-    const currentData = this._history.get(this._cursorIndex);
-    if (Immutable.is(newData, currentData)) {
+  _cursorHasChanged(newData, oldData) {
+    if (Immutable.is(newData, oldData)) {
       return;
     }
 
-    this._history = this._history.slice(0, this._cursorIndex + 1);
-    this._history = this._history.push(newData);
-    this.cursor = Cursor.from(this._history.last(), [], this._cursorHasChanged.bind(this));
-    this._cursorIndex = this._history.size - 1;
+    this.cursor = Cursor.from(newData, [], this._cursorHasChanged.bind(this));
+    const newDiffs = immutableDiff(oldData, newData);
+    this._diffs = this._diffs.slice(0, this._cursorIndex).concat(newDiffs);
+    this._cursorIndex += 1;
 
-    this._emitChange();
-
-    console.log(`size ${objectSizeof(this._history)} bytes`)
+    this._onChange(newDiffs, this.cursor.deref());
   }
 
-  _emitChange() {
-    this._onChange(this.cursor);
+  _correctPath(path) {
+    return path.substring(1).split('/');
+  }
+
+  _rebuildState(newIndex) {
+    let newState = this._baseState;
+    const requiredDiffs = this._diffs.slice(0, newIndex);
+
+    requiredDiffs.forEach(diff => {
+      const op = diff.get('op');
+      const path = diff.get('path');
+      const value = diff.get('value');
+
+      if (op === 'add' || op === 'replace') {
+        newState = newState.setIn(path, value);
+      } else if (op === 'remove') {
+        newState = newState.deleteIn(path, value);
+      }
+    });
+
+    const diffs = immutableDiff(this.cursor.deref(), newState);
+    this.cursor = Cursor.from(newState, [], this._cursorHasChanged.bind(this));
+    this._cursorIndex = newIndex;
+
+    this._onChange(diffs, this.cursor.deref());
   }
 
   freeze() {
-    this._history = this._history.take(1);
+    this._baseState = this.cursor.deref();
     this._cursorIndex = 0;
+    this._diffs = this._diffs.clear();
   }
 
   canRedo() {
-    return (this._cursorIndex < this._history.size - 1);
+    return (this._cursorIndex < this._diffs.size);
   }
 
   canUndo() {
     return (this._cursorIndex > 0);
   }
 
+  addDiffs(diffs) {
+    this._diffs = this._diffs.concat(diffs);
+    this._rebuildState(this._diffs.size);
+  }
+
   redo() {
-    if (this._cursorIndex < this._history.size - 1) {
-      this._cursorIndex += 1;
-      const newData = this._history.get(this._cursorIndex);
-      this.cursor = Cursor.from(newData, [], this._cursorHasChanged.bind(this));
-      this._emitChange();
+    if (this.canRedo()) {
+      this._rebuildState(this._cursorIndex + 1);
     }
   }
 
   undo() {
-    this._cursorIndex -= 1;
-    const newData = this._history.get(this._cursorIndex);
-    this.cursor = Cursor.from(newData, [], this._cursorHasChanged.bind(this));
-    this._emitChange();
+    if (this.canUndo()) {
+      this._rebuildState(this._cursorIndex - 1);
+    }
   }
 }
 

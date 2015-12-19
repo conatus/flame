@@ -11,12 +11,12 @@ function storesMixinFactory(...storeIds) {
 
     componentDidMount() {
       const { app } = this.context;
-      app.addChangeListeners(this._onChange, storeIds);
+      app.addStoreListeners(this._onChange, storeIds);
     },
 
     componentWillUnmount() {
       const { app } = this.context;
-      app.removeChangeListeners(this._onChange, storeIds);
+      app.removeStoreListeners(this._onChange, storeIds);
     },
 
     getInitialState() {

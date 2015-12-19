@@ -6,13 +6,13 @@ import invariant from 'invariant';
 class OurDispatcher extends Dispatcher {
   handleAction(action) {
     invariant(action.actionType !== undefined,
-      'Actions should always contain an actionType when dispatched'
+      'Actions should contain an actionType when dispatched'
     );
 
-    Log.debug('API ACTION:', action);
+    Log.debug('ACTION:', action);
 
     this.dispatch({
-      source: 'API_ACTION',
+      source: 'ACTION',
       action: action,
     });
   }

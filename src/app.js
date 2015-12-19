@@ -1,12 +1,16 @@
+import { EventEmitter } from 'events';
 import Immutable from 'immutable';
 import ImmutableHistory from './immutable-history';
 
 import Dispatcher from './dispatcher';
 
-class App {
-  constructor(...stores) {
+class App extends EventEmitter {
+  constructor(id, ...stores) {
+    super(id, ...stores);
+
+    this._id = id;
     this._dispatcher = new Dispatcher();
-    this._history = new ImmutableHistory(Immutable.Map(), this._stateHasChanged);
+    this._history = new ImmutableHistory(Immutable.Map(), this._stateHasChanged.bind(this));
 
     this._stores = Immutable.Map(stores.map(Store => {
       const store = new Store(
@@ -18,26 +22,36 @@ class App {
     }));
 
     this._history.freeze();
+    this.onStateChange = null;
   }
 
-  _stateHasChanged() {
+  _stateHasChanged(diffs) {
     if (this._stores) {
       this._stores.get('todo').emit('CHANGE');
+      this.emit('CHANGE', diffs);
     }
   }
 
-  fireAction(actionCreator) {
+  addDiffListener(callback) {
+    this.on('CHANGE', callback);
+  }
+
+  removeDiffListener(callback) {
+    this.removeListener('CHANGE', callback);
+  }
+
+  dispatchAction(actionCreator) {
     actionCreator(this._dispatcher);
   }
 
-  addChangeListeners(listener, storeIds) {
+  addStoreListeners(listener, storeIds) {
     storeIds.forEach(storeId => {
       const store = this._stores.get(storeId);
       store.addChangeListener(listener);
     });
   }
 
-  removeChangeListeners(listener, storeIds) {
+  removeStoreListeners(listener, storeIds) {
     storeIds.forEach(storeId => {
       const store = this._stores.get(storeId);
       store.removeChangeListener(listener);
@@ -56,6 +70,10 @@ class App {
     this._history.cursor.set(id, state);
   }
 
+  addDiffs(diffs) {
+    this._history.addDiffs(diffs);
+  }
+
   redo() {
     this._history.redo();
     this._stores.get('todo').emit('CHANGE');
@@ -72,6 +90,10 @@ class App {
 
   canUndo() {
     return this._history.canUndo();
+  }
+
+  record() {
+
   }
 }
 
