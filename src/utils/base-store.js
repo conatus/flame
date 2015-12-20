@@ -25,8 +25,8 @@ class BaseStore extends EventEmitter {
     this.removeListener('CHANGE', callback);
   }
 
-  getState() {
-    return this._state.get(this.id);
+  getState(state) {
+    return state;
   }
 
   _getActionHandlers() {
