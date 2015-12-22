@@ -26,10 +26,7 @@ class App extends EventEmitter {
   }
 
   _stateHasChanged(diffs) {
-    if (this._stores) {
-      this._stores.get('todo').emit('CHANGE');
-      this.emit('CHANGE', diffs);
-    }
+    this.emit('CHANGE', diffs);
   }
 
   addDiffListener(callback) {
@@ -40,8 +37,19 @@ class App extends EventEmitter {
     this.removeListener('CHANGE', callback);
   }
 
+  addDiffs(diffs) {
+    this._history.addDiffs(diffs);
+  }
+
   dispatchAction(actionCreator) {
-    actionCreator(this._dispatcher);
+    if (typeof actionCreator === 'function') {
+      actionCreator(this._dispatcher);
+    } else {
+      const storeIds = actionCreator.storeIds;
+      const state = this.getStateFromStores(storeIds);
+      const func = actionCreator.actionCreator;
+      return func(this._dispatcher, state);
+    }
   }
 
   addStoreListeners(listener, storeIds) {
@@ -63,15 +71,22 @@ class App extends EventEmitter {
   }
 
   getStoreState(id) {
-    return this._history.cursor.get(id);
+    const store = this._stores.get(id);
+    let state = this._history.cursor.get(id);
+    if (store.getState) {
+      state = store.getState(state);
+    }
+    return state;
   }
 
   setStoreState(id, state) {
     this._history.cursor.set(id, state);
   }
 
-  addDiffs(diffs) {
-    this._history.addDiffs(diffs);
+  getStateFromStores(ids) {
+    return Immutable.Map(ids.map(storeId => {
+      return [`${storeId}State`, this.getStoreState(storeId)];
+    }));
   }
 
   redo() {

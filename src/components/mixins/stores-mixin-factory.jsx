@@ -1,5 +1,3 @@
-import Immutable from 'immutable';
-
 import React from 'react';
 
 
@@ -9,7 +7,7 @@ function storesMixinFactory(...storeIds) {
       app: React.PropTypes.object,
     },
 
-    componentDidMount() {
+    componentWillMount() {
       const { app } = this.context;
       app.addStoreListeners(this._onChange, storeIds);
     },
@@ -33,10 +31,9 @@ function storesMixinFactory(...storeIds) {
 
     _getStateFromStores() {
       const { app } = this.context;
-
-      return Immutable.Map(storeIds.map(storeId => {
-        return [`${storeId}State`, app.getStoreState(storeId)];
-      })).toJS();
+      return {
+        data: app.getStateFromStores(storeIds),
+      };
     },
 
   };

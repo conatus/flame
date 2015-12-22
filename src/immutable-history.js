@@ -20,8 +20,9 @@ class ImmutableHistory {
 
     this.cursor = Cursor.from(newData, [], this._cursorHasChanged.bind(this));
     const newDiffs = immutableDiff(oldData, newData);
+
     this._diffs = this._diffs.slice(0, this._cursorIndex).concat(newDiffs);
-    this._cursorIndex += 1;
+    this._cursorIndex += newDiffs.size;
 
     this._onChange(newDiffs, this.cursor.deref());
   }
