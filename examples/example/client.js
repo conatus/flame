@@ -1,10 +1,9 @@
-import Immutable from 'immutable';
 import Log from 'loglevel';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './app';
-import Container from './container.jsx';
+import {App, Container} from 'flame';
+
 import Home from './components/pages/home.jsx';
 import MovieStore from './stores/movie-store';
 import TodoStore from './stores/todo-store';

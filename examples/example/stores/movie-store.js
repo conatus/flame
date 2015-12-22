@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 
 import actionTypes from '../constants/action-types';
-import BaseStore from '../utils/base-store';
+import {BaseStore} from 'flame';
 
 
 class TodoStore extends BaseStore {
@@ -48,12 +48,11 @@ class TodoStore extends BaseStore {
   _handleFetchMovieSuccess(action, state) {
     const {id, movie} = action;
 
-    const us = state.setIn(['movies', id], Immutable.fromJS({
+    return state.setIn(['movies', id], Immutable.fromJS({
       id,
       movie,
       status: 'success',
     }));
-    return us;
   }
 
   _handleFetchMovieError(action, state) {

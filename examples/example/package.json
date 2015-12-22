@@ -1,27 +1,24 @@
 {
-  "name": "flame",
-  "version": "0.0.6",
-  "description": "Single-state-tree immutable Flux with Stores",
-  "main": "src/index.js",
+  "name": "flame-example",
+  "version": "0.0.0",
+  "description": "Basic Flame example",
+  "main": "client.js",
   "scripts": {
-    "lint": "eslint src"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ben-davis/flame.git"
+    "url": "git+https://github.com/ben-davis/flame.git"
   },
   "keywords": [
-    "flame",
-    "flux",
-    "react",
-    "reactjs"
+    "flame"
   ],
-  "author": "Ben Davis <bendavis381@gmail.com> (http://github.com/ben-davis)",
+  "author": "Ben Davis",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ben-davis/flame/issues"
   },
-  "homepage": "https://github.com/ben-davis/flame",
+  "homepage": "https://github.com/ben-davis/flame#readme",
   "devDependencies": {
     "babel-core": "^6.0.20",
     "babel-eslint": "^4.1.3",
@@ -37,16 +34,11 @@
   "dependencies": {
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
-    "flux": "^2.1.1",
     "immutable": "3.7.6",
-    "immutable-diff": "^0.1.1",
-    "immutable-history": "https://github.com/ben-davis/immutable-history/tarball/v0.3.1",
-    "immutablediff": "^0.4.2",
-    "invariant": "^2.2.0",
     "keymirror": "^0.1.1",
     "loglevel": "^1.4.0",
-    "object-sizeof": "^1.0.6",
     "react": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react-dom": "^0.14.0",
+    "flame": "0.0.6"
   }
 }
