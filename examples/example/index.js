@@ -2,7 +2,7 @@ import Log from 'loglevel';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {App, Container} from 'flame';
+import Flame from 'flame';
 
 import Home from './components/pages/home.jsx';
 import MovieStore from './stores/movie-store';
@@ -19,7 +19,7 @@ import TodoStore from './stores/todo-store';
 // const isSlave = getParameterByName('slave');
 
 Log.setLevel(Log.levels.TRACE);
-const app = new App('app', MovieStore, TodoStore);
+const app = new Flame.App('app', MovieStore, TodoStore);
 
 // if (isSlave) {
 //   console.log("is slave")
@@ -38,8 +38,8 @@ const app = new App('app', MovieStore, TodoStore);
 // }
 
 ReactDOM.render(
-  <Container app={app}>
+  <Flame.Container app={app}>
     <Home />
-  </Container>,
+  </Flame.Container>,
   document.getElementById('root')
 );

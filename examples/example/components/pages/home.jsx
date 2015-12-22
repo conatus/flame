@@ -1,6 +1,6 @@
 import React from 'react';
 import TodoActions from '../../actions/todo-action';
-import storeMixinFactory from '../mixins/stores-mixin-factory.jsx';
+import storeMixinFactory from '../../../../src/stores-mixin-factory.jsx';
 
 import MovieActions from '../../actions/movie-actions';
 import MovieList from '../partials/movie-list.jsx';
