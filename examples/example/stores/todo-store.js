@@ -1,9 +1,9 @@
 import Immutable from 'immutable';
 
 import actionTypes from '../constants/action-types';
-import Flame from 'flame';
+import {BaseStore} from 'flame';
 
-class TodoStore extends Flame.BaseStore {
+class TodoStore extends BaseStore {
   constructor(...args) {
     super(...args);
 
