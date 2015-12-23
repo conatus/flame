@@ -10,7 +10,7 @@ class BaseStore extends EventEmitter {
     this._getStoreState = getStoreState;
     this._setStoreState = setStoreState;
 
-    this._setStoreState(this.getStoreId(), this.getInitialState());
+    this._setStoreState(this.getStoreId(), this.getInitialState(...args));
   }
 
   emitChange() {
