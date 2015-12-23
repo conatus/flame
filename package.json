@@ -3,6 +3,10 @@
   "version": "0.0.10",
   "description": "Single-state-tree immutable Flux with Stores",
   "main": "lib/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
   "scripts": {
     "lint": "eslint src",
     "build": "babel src --out-dir lib",
