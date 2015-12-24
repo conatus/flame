@@ -41,14 +41,17 @@ class App extends EventEmitter {
     this._history.addDiffs(diffs);
   }
 
-  dispatchAction(actionCreator) {
+  fireActionCreator(actionCreator) {
+    const dispatchAction = this._dispatcher.handleAction.bind(this._dispatcher);
+    const boundFireActionCreator = this.fireActionCreator.bind(this);
+
     if (typeof actionCreator === 'function') {
-      actionCreator(this._dispatcher);
+      actionCreator(dispatchAction, boundFireActionCreator);
     } else {
       const storeIds = actionCreator.storeIds;
       const state = this.getStateFromStores(storeIds);
       const func = actionCreator.actionCreator;
-      return func(this._dispatcher, state);
+      return func(dispatchAction, state, boundFireActionCreator);
     }
   }
 

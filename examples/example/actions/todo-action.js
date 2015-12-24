@@ -2,8 +2,8 @@ import actionTypes from '../constants/action-types';
 
 const TodoActions = {
   newTodo(todo) {
-    return (dispatcher) => {
-      dispatcher.handleAction({
+    return (dispatchAction) => {
+      dispatchAction({
         actionType: actionTypes.ADD_TODO,
         todo: todo,
       });

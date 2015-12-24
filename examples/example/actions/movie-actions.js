@@ -6,25 +6,25 @@ const MovieActions = {
     if (id) {
       return {
         storeIds: ['movie'],
-        actionCreator: (dispatcher, state) => {
+        actionCreator: (dispatchAction, state) => {
           const movies = state.get('movieState').get('movies');
           if (movies.has(id)) {
             return;
           }
 
-          dispatcher.handleAction({
+          dispatchAction({
             id,
             actionType: actionTypes.FETCH_MOVIE_PENDING,
           });
 
           MovieService.fetchMovie(id).then((movie) => {
-            dispatcher.handleAction({
+            dispatchAction({
               id,
               movie,
               actionType: actionTypes.FETCH_MOVIE_SUCCESS,
             });
           }, (error) => {
-            dispatcher.handleAction({
+            dispatchAction({
               id,
               error,
               actionType: actionTypes.FETCH_MOVIE_ERROR,
@@ -34,8 +34,8 @@ const MovieActions = {
       };
     }
 
-    return (dispatcher) => {
-      dispatcher.handleAction({
+    return (dispatchAction) => {
+      dispatchAction({
         id: existingMovie.id,
         movie: existingMovie,
         actionType: actionTypes.FETCH_MOVIE_SUCCESS,
@@ -44,21 +44,23 @@ const MovieActions = {
   },
 
   fetchMovies() {
-    return (dispatcher) => {
-      dispatcher.handleAction({
+    return (dispatchAction, fireActionCreator) => {
+      dispatchAction({
         actionType: actionTypes.FETCH_MOVIES_PENDING,
       });
 
       MovieService.fetchMovies().then((movies) => {
         movies.forEach(movie => {
-          this.fetchMovie(null, movie)(dispatcher);
+          fireActionCreator(
+            this.fetchMovie(null, movie)
+          );
         });
 
-        dispatcher.handleAction({
+        dispatchAction({
           actionType: actionTypes.FETCH_MOVIES_SUCCESS,
         });
       }, (error) => {
-        dispatcher.handleAction({
+        dispatchAction({
           error,
           actionType: actionTypes.FETCH_MOVIES_ERROR,
         });

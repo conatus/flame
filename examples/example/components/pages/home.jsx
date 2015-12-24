@@ -1,6 +1,6 @@
 import React from 'react';
 import TodoActions from '../../actions/todo-action';
-import storeMixinFactory from '../../../../src/stores-mixin-factory.jsx';
+import {storeMixinFactory} from 'flame';
 
 import MovieActions from '../../actions/movie-actions';
 import MovieList from '../partials/movie-list.jsx';
@@ -22,19 +22,19 @@ const Home = React.createClass({
       movieFlag: true,
     });
 
-    this.context.app.dispatchAction(
+    this.context.app.fireActionCreator(
       MovieActions.fetchMovie(2)
     );
   },
 
   _fetchMovies() {
-    this.context.app.dispatchAction(
+    this.context.app.fireActionCreator(
       MovieActions.fetchMovies()
     );
   },
 
   _onClick() {
-    this.context.app.dispatchAction(
+    this.context.app.fireActionCreator(
       TodoActions.newTodo(`my new todo ${Math.random()}`)
     );
   },
