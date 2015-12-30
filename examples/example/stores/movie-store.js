@@ -69,6 +69,16 @@ class TodoStore extends BaseStore {
   }
 
   _handleFetchMoviesSuccess(action, state) {
+    const {movies} = action;
+
+    movies.forEach(movie => {
+      state = state.setIn(['movies', movie.id], Immutable.fromJS({
+        id: movie.id,
+        movie,
+        status: 'success',
+      }));
+    });
+
     return state.set('status', 'success');
   }
 

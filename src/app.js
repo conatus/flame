@@ -43,15 +43,14 @@ class App extends EventEmitter {
 
   fireActionCreator(actionCreator) {
     const dispatchAction = this._dispatcher.handleAction.bind(this._dispatcher);
-    const boundFireActionCreator = this.fireActionCreator.bind(this);
 
     if (typeof actionCreator === 'function') {
-      actionCreator(dispatchAction, boundFireActionCreator);
+      actionCreator(dispatchAction);
     } else {
       const storeIds = actionCreator.storeIds;
       const state = this.getStateFromStores(storeIds);
       const func = actionCreator.actionCreator;
-      return func(dispatchAction, state, boundFireActionCreator);
+      return func(dispatchAction, state);
     }
   }
 
