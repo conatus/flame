@@ -9,8 +9,9 @@ class BaseStore extends EventEmitter {
     this._dispatcher = dispatcher;
     this._getStoreState = getStoreState;
     this._setStoreState = setStoreState;
+    this._args = args;
 
-    this._setStoreState(this.getStoreId(), this.getInitialState(...args));
+    this._setInitialState();
   }
 
   emitChange() {
@@ -27,6 +28,14 @@ class BaseStore extends EventEmitter {
 
   getState(state) {
     return state;
+  }
+
+  resetState() {
+    this._setInitialState();
+  }
+
+  _setInitialState() {
+    this._setStoreState(this.getStoreId(), this.getInitialState(...this._args));
   }
 
   _getActionHandlers() {
