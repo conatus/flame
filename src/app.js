@@ -29,11 +29,11 @@ class App extends EventEmitter {
     this.emit('CHANGE', diffs);
   }
 
-  addDiffListener(callback) {
+  subscribe(callback) {
     this.on('CHANGE', callback);
   }
 
-  removeDiffListener(callback) {
+  unsubscribe(callback) {
     this.removeListener('CHANGE', callback);
   }
 
@@ -53,20 +53,6 @@ class App extends EventEmitter {
       const func = actionCreator.actionCreator;
       return func(dispatchAction, state, boundFireActionCreator);
     }
-  }
-
-  addStoreListeners(listener, storeIds) {
-    storeIds.forEach(storeId => {
-      const store = this._stores.get(storeId);
-      store.addChangeListener(listener);
-    });
-  }
-
-  removeStoreListeners(listener, storeIds) {
-    storeIds.forEach(storeId => {
-      const store = this._stores.get(storeId);
-      store.removeChangeListener(listener);
-    });
   }
 
   getAppState() {

@@ -14,18 +14,6 @@ class BaseStore extends EventEmitter {
     this._setInitialState();
   }
 
-  emitChange() {
-    this.emit('CHANGE');
-  }
-
-  addChangeListener(callback) {
-    this.on('CHANGE', callback);
-  }
-
-  removeChangeListener(callback) {
-    this.removeListener('CHANGE', callback);
-  }
-
   getState(state) {
     return state;
   }
@@ -64,10 +52,7 @@ class BaseStore extends EventEmitter {
     }
 
     this.dispatchToken = this._dispatcher.register((payload) => {
-      const handled = handleAction(payload.action);
-      if (handled) {
-        this.emitChange();
-      }
+      handleAction(payload.action);
     });
   }
 }

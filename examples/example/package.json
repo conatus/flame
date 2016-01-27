@@ -29,18 +29,18 @@
     "eslint-plugin-babel": "^3.0.0",
     "eslint-plugin-react": "^3.11.3",
     "express": "^4.13.3",
+    "flame": "0.0.6",
+    "immutable": "3.7.6",
+    "keymirror": "^0.1.1",
+    "loglevel": "^1.4.0",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.0.1",
     "rimraf": "^2.4.3",
     "webpack": "^1.12.9",
     "webpack-dev-middleware": "^1.4.0",
-    "webpack-hot-middleware": "^2.6.0",
-    "immutable": "3.7.6",
-    "keymirror": "^0.1.1",
-    "loglevel": "^1.4.0",
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0",
-    "flame": "0.0.6"
+    "webpack-hot-middleware": "^2.6.0"
   }
 }

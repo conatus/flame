@@ -1,13 +1,13 @@
 import React from 'react';
 
 const Container = React.createClass({
+  childContextTypes: {
+    app: React.PropTypes.object,
+  },
+
   propTypes: {
     app: React.PropTypes.object.isRequired,
     children: React.PropTypes.element.isRequired,
-  },
-
-  childContextTypes: {
-    app: React.PropTypes.object,
   },
 
   getChildContext() {
