@@ -22,5 +22,9 @@ Redux makes the mistake of obsessing about data storage, wheras Flame obsesses a
 # Benefits of Flame
 Flame keeps it like Flux. Anyone with an existing Flux implementation will be able to use and understand Flame with very little modifications or additional learning curve. But, and this is the most important part, Flame still provides all the benefits of Redux: the much loved and adored "time travel debugging", predicatable state changes that occur synchrounsly and preditably, and any other benefits you can think of that when using a single object for your application state (like an easy Flux-over-the-wire or replayable user stack traces). It also is immutable by design, which is nice, and is trivial to get working on the server, which is extra nice.
 
+As mentioned, Flame's state tree is immutable - every action handler inside a store is expected to provide a new ImmutableJS instance for every action it handles, with a history of changes recorded. What's unique about Flame however is how that history is stored - each of those changes described by a store's handler is recorded as a diff between two immutable states, instead of another instance of the entire state tree. This not only makes it very efficient to record a large number of history states of your application, but also makes features like undo/redo and server/client state sharing trivial to implement. See `index.html` in the example to see how it's possible to serialise state changes in a Flame app and send them over the wire to be synced with any number of other slave Flame apps.
+
+Compare `app.js` implementation of undo/redo compared with how redux does it: http://redux.js.org/docs/recipes/ImplementingUndoHistory.html
+
 # What Now
 It's still very much a work in progress, but I hope that it eventually proves useful. Please let me know what you think, especially if any of the above you find to be utter nonsense.
