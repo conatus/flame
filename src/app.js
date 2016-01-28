@@ -59,10 +59,10 @@ class App extends EventEmitter {
     return this._history.cursor;
   }
 
-  getStoreState(id) {
+  getStoreState(id, raw = false) {
     const store = this._stores.get(id);
     let state = this._history.cursor.get(id);
-    if (store.getState) {
+    if (store.getState && !raw) {
       state = store.getState(state);
     }
     return state;

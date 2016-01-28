@@ -41,7 +41,7 @@ class BaseStore extends EventEmitter {
         const storeId = that.getStoreId();
         Log.debug(`${storeId} is handling ${action.actionType}`);
 
-        const existingState = that._getStoreState(storeId);
+        const existingState = that._getStoreState(storeId, true);
         const updatedState = actionHandlers[action.actionType].call(that, action, existingState);
         that._setStoreState(storeId, updatedState);
 
