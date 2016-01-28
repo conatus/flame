@@ -80,12 +80,10 @@ class App extends EventEmitter {
 
   redo() {
     this._history.redo();
-    this._stores.get('todo').emit('CHANGE');
   }
 
   undo() {
     this._history.undo();
-    this._stores.get('todo').emit('CHANGE');
   }
 
   canRedo() {
