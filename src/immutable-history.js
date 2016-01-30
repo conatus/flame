@@ -13,6 +13,37 @@ class ImmutableHistory {
     this._cursorIndex = 0;
   }
 
+  freeze() {
+    this._baseState = this.cursor.deref();
+    this._cursorIndex = 0;
+    this._diffs = this._diffs.clear();
+  }
+
+  canRedo() {
+    return (this._cursorIndex < this._diffs.size);
+  }
+
+  canUndo() {
+    return (this._cursorIndex > 0);
+  }
+
+  addDiffs(diffs) {
+    this._diffs = this._diffs.concat(diffs);
+    this._rebuildState(this._diffs.size);
+  }
+
+  redo() {
+    if (this.canRedo()) {
+      this._rebuildState(this._cursorIndex + 1);
+    }
+  }
+
+  undo() {
+    if (this.canUndo()) {
+      this._rebuildState(this._cursorIndex - 1);
+    }
+  }
+
   _cursorHasChanged(newData, oldData) {
     if (Immutable.is(newData, oldData)) {
       return;
@@ -52,37 +83,6 @@ class ImmutableHistory {
     this._cursorIndex = newIndex;
 
     this._onChange(diffs, this.cursor.deref());
-  }
-
-  freeze() {
-    this._baseState = this.cursor.deref();
-    this._cursorIndex = 0;
-    this._diffs = this._diffs.clear();
-  }
-
-  canRedo() {
-    return (this._cursorIndex < this._diffs.size);
-  }
-
-  canUndo() {
-    return (this._cursorIndex > 0);
-  }
-
-  addDiffs(diffs) {
-    this._diffs = this._diffs.concat(diffs);
-    this._rebuildState(this._diffs.size);
-  }
-
-  redo() {
-    if (this.canRedo()) {
-      this._rebuildState(this._cursorIndex + 1);
-    }
-  }
-
-  undo() {
-    if (this.canUndo()) {
-      this._rebuildState(this._cursorIndex - 1);
-    }
   }
 }
 

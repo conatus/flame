@@ -19,14 +19,14 @@ import TodoStore from './stores/todo-store';
 // const isSlave = getParameterByName('slave');
 
 Log.setLevel(Log.levels.TRACE);
-const app = new App('app', MovieStore, TodoStore);
+const app = new App('app', [MovieStore, TodoStore]);
 
 // if (isSlave) {
 //   console.log("is slave")
 //   webSocket.onmessage = (event) => {
 //     console.log("recevsiing data", event)
 //     const diffs = JSON.parse(event.data);
-//     app.addDiffs(Immutable.fromJS(diffs));
+//     app.applyImmutableDiffs(Immutable.fromJS(diffs));
 //   };
 // } else {
 //   console.log("is master")

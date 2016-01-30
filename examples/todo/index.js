@@ -9,7 +9,7 @@ import TodoStore from './stores/todo-store';
 
 
 Log.setLevel(Log.levels.TRACE);
-const app = new App('app', TodoStore);
+const app = new App('app', [TodoStore]);
 
 ReactDOM.render(
   <Container app={app}>

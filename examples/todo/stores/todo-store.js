@@ -4,12 +4,6 @@ import actionTypes from '../constants/action-types';
 import {BaseStore} from 'flame';
 
 class TodoStore extends BaseStore {
-  constructor(...args) {
-    super(...args);
-
-    this._bindActionHandlers();
-  }
-
   getStoreId() {
     return 'todo';
   }
@@ -22,13 +16,11 @@ class TodoStore extends BaseStore {
     return state.toArray();
   }
 
-  _getActionHandlers() {
-    const actionHandlers = super._getActionHandlers();
-
-    return Object.assign(actionHandlers, {
+  getHandlers() {
+    return {
       [actionTypes.ADD_TODO]: this._handleAddTodo,
       [actionTypes.DELETE_TODO]: this._handleDeleteTodo,
-    });
+    };
   }
 
   _handleAddTodo(action, state) {
