@@ -27,7 +27,7 @@ class ImmutableHistory {
     return (this._cursorIndex > 0);
   }
 
-  addDiffs(diffs) {
+  applyImmutableDiffs(diffs) {
     this._diffs = this._diffs.concat(diffs);
     this._rebuildState(this._diffs.size);
   }
