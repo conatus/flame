@@ -1,6 +1,6 @@
 {
   "name": "flame",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Single-state-tree immutable Flux with Stores",
   "main": "lib/index.js",
   "files": [
