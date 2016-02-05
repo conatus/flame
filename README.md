@@ -6,6 +6,7 @@ Opinionated single-state-tree immutable Flux
 _Note: This is most certainly a work in progress, so things will change._
 
 [![Build Status](https://travis-ci.org/ben-davis/flame.svg?branch=master)](https://travis-ci.org/ben-davis/flame)
+[![npm version](https://badge.fury.io/js/flame.svg)](https://badge.fury.io/js/flame)
 
 # Introduction
 Flame is an implementation of Flux that, while it remains true to the core spirit of Flux, enhances it with a more rigid, opinionated structure built on top of a single immutable state tree. Flame is designed to overcome the many issues that crop up when using a vinalla traditional implementation of Flux in a large-scale production environment, without hugely diverting from its principles.
