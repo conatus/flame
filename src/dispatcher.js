@@ -11,10 +11,7 @@ class OurDispatcher extends Dispatcher {
 
     Log.debug('ACTION:', action);
 
-    this.dispatch({
-      source: 'ACTION',
-      action: action,
-    });
+    this.dispatch(action);
   }
 }
 

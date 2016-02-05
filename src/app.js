@@ -59,6 +59,12 @@ class App extends EventEmitter {
    * @returns {Immutable.Map} a map of the store's state.
    */
   getStateFromStores(ids) {
+    ids.forEach(id => {
+      if (!this._stores.has(id)) {
+        throw new Error(`Unknown store with id '${id}'`);
+      }
+    });
+
     return Immutable.Map(ids.map(storeId => {
       return [`${storeId}State`, this._getStoreState(storeId)];
     }));
@@ -125,6 +131,10 @@ class App extends EventEmitter {
   }
 
   _getStoreState(id, raw = false) {
+    if (!this._stores.has(id)) {
+      throw new Error(`Unknown store with id '${id}'`);
+    }
+
     const store = this._stores.get(id);
     let state = this._history.cursor.get(id);
     if (store.getState && !raw) {

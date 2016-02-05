@@ -79,7 +79,7 @@ class BaseStore extends EventEmitter {
     return Immutable.Map();
   }
 
-  _handle({action}) {
+  _handle(action) {
     let handled = false;
 
     if (this._handlers.has(action.actionType)) {
