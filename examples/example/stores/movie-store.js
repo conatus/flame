@@ -4,12 +4,6 @@ import actionTypes from '../constants/action-types';
 import {BaseStore} from 'flame';
 
 class TodoStore extends BaseStore {
-  constructor(...args) {
-    super(...args);
-
-    this._bindActionHandlers();
-  }
-
   getStoreId() {
     return 'movie';
   }
@@ -21,17 +15,15 @@ class TodoStore extends BaseStore {
     });
   }
 
-  _getActionHandlers() {
-    const actionHandlers = super._getActionHandlers();
-
-    return Object.assign(actionHandlers, {
+  getHandlers() {
+    return {
       [actionTypes.FETCH_MOVIE_PENDING]: this._handleFetchMoviePending,
       [actionTypes.FETCH_MOVIE_SUCCESS]: this._handleFetchMovieSuccess,
       [actionTypes.FETCH_MOVIE_ERROR]: this._handleFetchMovieError,
       [actionTypes.FETCH_MOVIES_PENDING]: this._handleFetchMoviesPending,
       [actionTypes.FETCH_MOVIES_SUCCESS]: this._handleFetchMoviesSuccess,
       [actionTypes.FETCH_MOVIES_ERROR]: this._handleFetchMoviesError,
-    });
+    };
   }
 
   _handleFetchMoviePending(action, state) {
