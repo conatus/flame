@@ -29,8 +29,10 @@ class App extends EventEmitter {
    *
    * @returns {Immutable Cursor}.
    */
-  getAppState() {
-    return this._history.cursor;
+  getState() {
+    return Immutable.Map(this._stores.keySeq().map(storeId => {
+      return [`${storeId}State`, this._getStoreState(storeId)];
+    }));
   }
 
   /**

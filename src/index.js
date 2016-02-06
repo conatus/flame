@@ -1,11 +1,11 @@
 import App from './app';
 import BaseStore from './base-store';
-import Container from './container';
-import storeMixinFactory from './stores-mixin-factory';
+import Provider from './provider';
+import appProviderMixin from './app-provider-mixin';
 
 export {
   App,
   BaseStore,
-  Container,
-  storeMixinFactory,
+  Provider,
+  appProviderMixin,
 };

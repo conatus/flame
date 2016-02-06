@@ -1,6 +1,7 @@
+import ImmutableProptypes from 'react-immutable-proptypes';
 import React from 'react';
 import TodoActions from '../../actions/todo-action';
-import {storeMixinFactory} from 'flame';
+import {appProviderMixin} from 'flame';
 
 import MovieActions from '../../actions/movie-actions';
 import MovieList from '../partials/movie-list.jsx';
@@ -8,8 +9,12 @@ import MovieList from '../partials/movie-list.jsx';
 
 const Home = React.createClass({
   mixins: [
-    storeMixinFactory('todo', 'movie'),
+    appProviderMixin,
   ],
+
+  propTypes: {
+    appState: ImmutableProptypes.map,
+  },
 
   getInitialState() {
     return {
@@ -48,16 +53,11 @@ const Home = React.createClass({
   },
 
   render() {
+    const {appState} = this.props;
+    const movieState = appState.get('movieState');
+    const todoState = appState.get('todoState');
+
     const {app} = this.context;
-
-    if (!this.state.data) {
-      return null;
-    }
-
-    const data = this.state.data;
-    const movieState = data.get('movieState');
-    const todoState = data.get('todoState');
-
     const canRedo = app.canRedo();
     const canUndo = app.canUndo();
 

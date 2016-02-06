@@ -4,7 +4,7 @@ import querystring from 'querystring';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {App, Container} from 'flame';
+import {App, Provider} from 'flame';
 
 import Home from './components/pages/home.jsx';
 import TodoStore from './stores/todo-store';
@@ -36,8 +36,8 @@ if (useWebsockets) {
 }
 
 ReactDOM.render(
-  <Container app={app}>
+  <Provider app={app}>
     <Home />
-  </Container>,
+  </Provider>,
   document.getElementById('root')
 );

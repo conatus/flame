@@ -1,14 +1,19 @@
+import ImmutableProptypes from 'react-immutable-proptypes';
 import React from 'react';
 import TodoActions from '../../actions/todo-actions';
-import {storeMixinFactory} from 'flame';
+import {appProviderMixin} from 'flame';
 
 import TodoItem from '../partials/todo-item.jsx';
 
 
 const Home = React.createClass({
   mixins: [
-    storeMixinFactory('todo'),
+    appProviderMixin,
   ],
+
+  propTypes: {
+    appState: ImmutableProptypes.map,
+  },
 
   getInitialState() {
     return {
@@ -39,17 +44,14 @@ const Home = React.createClass({
   },
 
   render() {
+    const {appState} = this.props;
+    const todoState = appState.get('todoState');
+
     const {app} = this.context;
-
-    if (!this.state.data) {
-      return null;
-    }
-
-    const {data, todoInput} = this.state;
-    const todoState = data.get('todoState');
-
     const canRedo = app.canRedo();
     const canUndo = app.canUndo();
+
+    const {todoInput} = this.state;
 
     return (
       <div>

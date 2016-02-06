@@ -1,4 +1,4 @@
-import {storeMixinFactory} from 'flame';
+import {appProviderMixin} from 'flame';
 import React from 'react';
 
 import TodoActions from '../../actions/todo-actions';
@@ -6,7 +6,7 @@ import TodoActions from '../../actions/todo-actions';
 
 const TodoItem = React.createClass({
   mixins: [
-    storeMixinFactory(),
+    appProviderMixin,
   ],
 
   propTypes: {

@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 
 class TestTwoStore extends BaseStore {
   getStoreId() {
-    return 'test-two';
+    return 'testTwo';
   }
 
   getInitialState() {

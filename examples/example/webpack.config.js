@@ -29,16 +29,16 @@ module.exports = {
   }
 }
 
-// When inside Redux repo, prefer src to compiled version.
+// When inside Flame repo, prefer src to compiled version.
 // You can safely delete these lines in your project.
 var flameSrc = path.join(__dirname, '..', '..', 'src')
 var flameNodeModules = path.join(__dirname, '..', '..', 'node_modules')
 var fs = require('fs')
 if (fs.existsSync(flameSrc) && fs.existsSync(flameNodeModules)) {
-  // Resolve Redux to source
+  // Resolve Flame to source
   module.devtool = 'inline-source-map';
   module.exports.resolve = { alias: { 'flame': flameSrc } }
-  // Compile Redux from source
+  // Compile Flame from source
   module.exports.module.loaders.push({
     test: /\.jsx?$/,
     loaders: ['babel'],

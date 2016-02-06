@@ -14,10 +14,10 @@ test('app instantiates with default state', t => {
     TestTwoStore,
   ]);
 
-  const appState = app.getAppState();
+  const appState = app.getState();
   t.ok(Immutable.is(appState, Immutable.fromJS({
-    'test': [],
-    'test-two': [],
+    'testState': [],
+    'testTwoState': [],
   })));
 });
 

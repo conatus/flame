@@ -2,7 +2,7 @@ import Log from 'loglevel';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {App, Container} from 'flame';
+import {App, Provider} from 'flame';
 
 import Home from './components/pages/home.jsx';
 import MovieStore from './stores/movie-store';
@@ -38,8 +38,8 @@ const app = new App('app', [MovieStore, TodoStore]);
 // }
 
 ReactDOM.render(
-  <Container app={app}>
+  <Provider app={app}>
     <Home />
-  </Container>,
+  </Provider>,
   document.getElementById('root')
 );
