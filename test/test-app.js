@@ -56,6 +56,15 @@ test('_setStoreState sets state', t => {
   t.ok(Immutable.is(storeState, Immutable.fromJS(['new-item'])));
 });
 
+test('_setStoreState throws error when it lacks a store', t => {
+  const app = new App('test', [TestStore]);
+
+  t.plan(1);
+
+  app._setStoreState('test', Immutable.fromJS(['new-item']));
+  t.throws(() => app._getStoreState('not-in-there'));
+});
+
 test('_setStoreState calls subscribed callbacks', t => {
   const app = new App('test', [
     TestStore,
@@ -70,6 +79,29 @@ test('_setStoreState calls subscribed callbacks', t => {
   app._setStoreState('test', Immutable.fromJS(['new-item']));
 });
 
+test('app handles subscription and unsubscription EventEmitter lifecycle cleanly', t => {
+  const app = new App('test', [TestStore]);
+
+  sinon.spy(app, 'removeListener');
+  sinon.spy(app, 'on');
+  const cb = () => null;
+  t.plan(8);
+
+  app.subscribe(cb);
+
+  t.ok(app.on.calledOnce);
+  t.ok(app.on.getCall(0).args[0] === 'CHANGE');
+  t.ok(app.on.getCall(0).args[1] === cb);
+  t.ok(app.listenerCount('CHANGE') === 1);
+
+  app.unsubscribe(cb);
+
+  t.ok(app.removeListener.calledOnce);
+  t.ok(app.removeListener.getCall(0).args[0] === 'CHANGE');
+  t.ok(app.removeListener.getCall(0).args[1] === cb);
+  t.ok(app.listenerCount('CHANGE') === 0);
+});
+
 test('fireActionCreator calls actionCreator with expected inputs', t => {
   const app = new App('test', [
     TestStore,
@@ -81,6 +113,18 @@ test('fireActionCreator calls actionCreator with expected inputs', t => {
     t.ok(typeof dispatchAction === 'function');
     t.ok(typeof fireActionCreator === 'function');
   });
+});
+
+test('applyImmutableDiffs passes diffs through to ImmutableHistory', () => {
+  const app = new App('test', [TestStore]);
+
+  const mock = sinon.mock(app._history);
+  const diffs = [{some: 'diffs'}];
+  mock.expects('applyImmutableDiffs').once().withExactArgs(diffs);
+
+  app.applyImmutableDiffs(diffs);
+
+  mock.verify();
 });
 
 test('undo calls through to ImmutableHistory redo', t => {
