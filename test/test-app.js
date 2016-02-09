@@ -89,17 +89,17 @@ test('app handles subscription and unsubscription EventEmitter lifecycle cleanly
 
   app.subscribe(cb);
 
-  t.ok(app.on.calledOnce);
-  t.ok(app.on.getCall(0).args[0] === 'CHANGE');
-  t.ok(app.on.getCall(0).args[1] === cb);
-  t.ok(app.listenerCount('CHANGE') === 1);
+  t.true(app.on.calledOnce);
+  t.is(app.on.getCall(0).args[0], 'CHANGE');
+  t.is(app.on.getCall(0).args[1], cb);
+  t.is(app.listenerCount('CHANGE'), 1);
 
   app.unsubscribe(cb);
 
-  t.ok(app.removeListener.calledOnce);
-  t.ok(app.removeListener.getCall(0).args[0] === 'CHANGE');
-  t.ok(app.removeListener.getCall(0).args[1] === cb);
-  t.ok(app.listenerCount('CHANGE') === 0);
+  t.true(app.removeListener.calledOnce);
+  t.is(app.removeListener.getCall(0).args[0], 'CHANGE');
+  t.is(app.removeListener.getCall(0).args[1], cb);
+  t.is(app.listenerCount('CHANGE'), 0);
 });
 
 test('fireActionCreator calls actionCreator with expected inputs', t => {
@@ -134,7 +134,7 @@ test('undo calls through to ImmutableHistory redo', t => {
   t.plan(1);
 
   app.redo();
-  t.ok(app._history.redo.calledOnce);
+  t.true(app._history.redo.calledOnce);
 });
 
 test('undo calls through to ImmutableHistory undo', t => {
@@ -144,7 +144,7 @@ test('undo calls through to ImmutableHistory undo', t => {
   t.plan(1);
 
   app.undo();
-  t.ok(app._history.undo.calledOnce);
+  t.true(app._history.undo.calledOnce);
 });
 
 test('undo calls through to ImmutableHistory canRedo', t => {
@@ -154,7 +154,7 @@ test('undo calls through to ImmutableHistory canRedo', t => {
   t.plan(1);
 
   app.canRedo();
-  t.ok(app._history.canRedo.calledOnce);
+  t.true(app._history.canRedo.calledOnce);
 });
 
 test('undo calls through to ImmutableHistory canUndo', t => {
@@ -164,7 +164,7 @@ test('undo calls through to ImmutableHistory canUndo', t => {
   t.plan(1);
 
   app.canUndo();
-  t.ok(app._history.canUndo.calledOnce);
+  t.true(app._history.canUndo.calledOnce);
 });
 
 test('fireActionCreator provides actionCreator with specified store state', t => {
