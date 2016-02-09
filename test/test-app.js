@@ -1,7 +1,9 @@
 import 'babel-register';
 
 import Immutable from 'immutable';
+
 import test from 'ava';
+import sinon from 'sinon';
 
 import App from '../src/app';
 import TestStore from './helpers/test-store';
@@ -79,6 +81,48 @@ test('fireActionCreator calls actionCreator with expected inputs', t => {
     t.ok(typeof dispatchAction === 'function');
     t.ok(typeof fireActionCreator === 'function');
   });
+});
+
+test('undo calls through to ImmutableHistory redo', t => {
+  const app = new App('test', [
+    TestStore,
+  ]);
+
+  sinon.spy(app._history, 'redo');
+  t.plan(1);
+
+  app.redo();
+  t.ok(app._history.redo.calledOnce);
+});
+
+test('undo calls through to ImmutableHistory undo', t => {
+  const app = new App('test', [TestStore]);
+
+  sinon.spy(app._history, 'undo');
+  t.plan(1);
+
+  app.undo();
+  t.ok(app._history.undo.calledOnce);
+});
+
+test('undo calls through to ImmutableHistory canRedo', t => {
+  const app = new App('test', [TestStore]);
+
+  sinon.spy(app._history, 'canRedo');
+  t.plan(1);
+
+  app.canRedo();
+  t.ok(app._history.canRedo.calledOnce);
+});
+
+test('undo calls through to ImmutableHistory canUndo', t => {
+  const app = new App('test', [TestStore]);
+
+  sinon.spy(app._history, 'canUndo');
+  t.plan(1);
+
+  app.canUndo();
+  t.ok(app._history.canUndo.calledOnce);
 });
 
 test('fireActionCreator provides actionCreator with specified store state', t => {
