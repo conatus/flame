@@ -84,9 +84,7 @@ test('fireActionCreator calls actionCreator with expected inputs', t => {
 });
 
 test('undo calls through to ImmutableHistory redo', t => {
-  const app = new App('test', [
-    TestStore,
-  ]);
+  const app = new App('test', [TestStore]);
 
   sinon.spy(app._history, 'redo');
   t.plan(1);
